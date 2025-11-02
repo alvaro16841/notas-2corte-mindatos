@@ -73,19 +73,48 @@ def buscar_notas_por_id(id_buscado_str, df_notas):
 
 # --- 3. INTERFAZ DE STREAMLIT ---
 
-st.set_page_config(page_title="Consulta de Notas", layout="wide")
-st.title("Consulta de Calificaciones Finales 🎓")
-st.markdown("---")
+# --- 3. INTERFAZ INTERACTIVA (Widgets) ---
 
-# Campo de entrada de ID
-id_input = st.text_input(
-    "Tu ID:",
-    placeholder='Escribe tu número de ID aquí (ej: 202220003610)'
+from IPython.display import clear_output # Necesario aquí para clear_output
+
+# Función para mostrar la interfaz (el título, el campo y el botón)
+def mostrar_interfaz():
+    """Muestra el título y los widgets de entrada."""
+    display(HTML("<h2>Consulta de Calificaciones Finales</h2>"))
+    display(id_input, boton_buscar)
+
+
+# Crear el campo de texto para el ID
+id_input = widgets.Text(
+    value='',
+    placeholder='Escribe tu número de ID aquí',
+    description='Tu ID:',
+    disabled=False
 )
 
-# Botón de búsqueda
-if st.button('Buscar Notas', type="primary"):
-    if id_input:
-        buscar_notas_por_id(id_input, df_copia)
-    else:
-        st.warning("Por favor, introduce tu ID para buscar.")
+# Crear el botón de búsqueda
+boton_buscar = widgets.Button(
+    description='Buscar Notas',
+    disabled=False,
+    button_style='info', 
+    tooltip='Clic para buscar tus notas'
+)
+
+
+# Definir la acción al hacer clic en el botón
+def on_button_click(b):
+    # Limpiar cualquier salida previa antes de mostrar el nuevo resultado
+    clear_output(wait=True) 
+    
+    # Reimprimir la interfaz
+    mostrar_interfaz()
+    
+    # Ejecutar la búsqueda
+    buscar_notas_por_id(id_input.value)
+
+
+# Asociar la acción al botón
+boton_buscar.on_click(on_button_click)
+
+# Mostrar la interfaz al ejecutar la celda por primera vez (ESTO INICIA EL FORMULARIO)
+mostrar_interfaz()
