@@ -87,11 +87,6 @@ def buscar_notas_por_id(id_buscado_str):
 
 # --- 3. INTERFAZ INTERACTIVA (Widgets) ---
 
-
-    # --- 3. INTERFAZ INTERACTIVA (Widgets) ---
-
-from IPython.display import clear_output # Necesario aquí para clear_output
-
 # Función para mostrar la interfaz (el título, el campo y el botón)
 def mostrar_interfaz():
     """Muestra el título y los widgets de entrada."""
